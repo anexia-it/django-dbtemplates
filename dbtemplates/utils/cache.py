@@ -28,7 +28,6 @@ def set_and_return(cache_key, content, display_name):
         cache.set(cache_key, content)
     return (content, display_name)
 
-
 def add_template_to_cache(instance, **kwargs):
     """
     Called via Django's signals to cache the templates, if the template
@@ -36,7 +35,6 @@ def add_template_to_cache(instance, **kwargs):
     """
     remove_notfound_key(instance)
     cache.set(get_cache_key(instance.name), instance.content)
-
 
 def remove_cached_template(instance, **kwargs):
     """
