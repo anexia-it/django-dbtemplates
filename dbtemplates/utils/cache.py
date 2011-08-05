@@ -35,6 +35,7 @@ def add_template_to_cache(instance, **kwargs):
     in the database was added or changed.
     """
     remove_notfound_key(instance)
+    remove_notfound_key(instance)
     cache.set(get_cache_key(instance.name), instance.content)
 
 
