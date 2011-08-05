@@ -16,7 +16,7 @@ def get_cache_key(name):
     return 'dbtemplates::%s::%s' % (name, current_site.pk)
 
 def get_cache_notfound_key(name):
-    return get_cache_key(name)+'::notfound'
+    return get_cache_key(name) + '::notfound'
 
 def remove_notfound_key(instance):
     # Remove notfound key as soon as we save the template.
@@ -34,7 +34,6 @@ def add_template_to_cache(instance, **kwargs):
     Called via Django's signals to cache the templates, if the template
     in the database was added or changed.
     """
-    remove_cached_template(instance)
     remove_notfound_key(instance)
     cache.set(get_cache_key(instance.name), instance.content)
 
@@ -44,4 +43,9 @@ def remove_cached_template(instance, **kwargs):
     Called via Django's signals to remove cached templates, if the template
     in the database was changed or deleted.
     """
-    cache.delete(get_cache_key(instance.name))
+    try:
+        original_instance = instance.__class__.objects.get(pk=instance.id)
+        cache_key = get_cache_key(original_instance.name)
+        cache.delete(cache_key)
+    except instance.__class__.DoesNotExist:
+        pass

@@ -78,5 +78,6 @@ def add_default_site(instance, **kwargs):
 
 
 signals.post_save.connect(add_default_site, sender=Template)
+signals.pre_save.connect(remove_cached_template, sender=Template)
 signals.post_save.connect(add_template_to_cache, sender=Template)
 signals.pre_delete.connect(remove_cached_template, sender=Template)
