@@ -7,4 +7,5 @@ dist
 example/example.db
 docs/_build
 .tox/
-*.egg/
+*.egg/.pydevproject
+.settings
